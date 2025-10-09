@@ -4354,6 +4354,10 @@ __metadata:
     "@graphql-codegen/typescript": "npm:^4.0.1"
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
     "@jest/globals": "npm:^30.0.2"
+    "@patternfly/react-core": "npm:^6.3.1"
+    "@patternfly/react-icons": "npm:^6.3.1"
+    "@patternfly/react-styles": "npm:^6.3.1"
+    "@patternfly/react-tokens": "npm:^6.3.1"
     "@storybook/addon-actions": "npm:^6.5.5"
     "@storybook/addon-docs": "npm:^6.5.5"
     "@storybook/addon-essentials": "npm:^6.5.5"
@@ -4726,6 +4730,47 @@ __metadata:
   version: 1.0.3
   resolution: "@open-draft/until@npm:1.0.3"
   checksum: 10c0/f88bcd774b55359d14a4fa80f7bfe7d9d6d26a5995e94e823e43b211656daae3663e983f0a996937da286d22f6f5da2087b661845302f236ba27f8529dcd14fb
+  languageName: node
+  linkType: hard
+
+"@patternfly/react-core@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "@patternfly/react-core@npm:6.3.1"
+  dependencies:
+    "@patternfly/react-icons": "npm:^6.3.1"
+    "@patternfly/react-styles": "npm:^6.3.1"
+    "@patternfly/react-tokens": "npm:^6.3.1"
+    focus-trap: "npm:7.6.4"
+    react-dropzone: "npm:^14.3.5"
+    tslib: "npm:^2.8.1"
+  peerDependencies:
+    react: ^17 || ^18 || ^19
+    react-dom: ^17 || ^18 || ^19
+  checksum: 10c0/5f42f0df892ccb7f0f905cc7311c1d5325067d75c01164ff72a8d5843372d2600d568eb632a5135df1dcb7520cde11fd489bf0364aa43b32d5a6eb7690c68c00
+  languageName: node
+  linkType: hard
+
+"@patternfly/react-icons@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "@patternfly/react-icons@npm:6.3.1"
+  peerDependencies:
+    react: ^17 || ^18 || ^19
+    react-dom: ^17 || ^18 || ^19
+  checksum: 10c0/99bfc823f70b49166c2fcb3de66bd205179fdba1090ff7305495eae0513c101e2bb08e573a840c455373592e5c31fb2f5a97ad7630d5e0aae87ca02ae0635920
+  languageName: node
+  linkType: hard
+
+"@patternfly/react-styles@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "@patternfly/react-styles@npm:6.3.1"
+  checksum: 10c0/38de0afdf317a2cb869144028985396c2344cc520bc803a8bbff6a4e346c9d11919a3c0e00886464ed97f787563a6068eea82a84662eb9bdedf9a179d8f6fb5f
+  languageName: node
+  linkType: hard
+
+"@patternfly/react-tokens@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "@patternfly/react-tokens@npm:6.3.1"
+  checksum: 10c0/35e42a1ec049b6a5904a96b50d7f19436b72d891aea7398b1178c1de49416162d3201552dca43bb62cae316eb2919cd90920ef56235218a1f2d539c152d941c6
   languageName: node
   linkType: hard
 
@@ -10973,6 +11018,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"attr-accept@npm:^2.2.4":
+  version: 2.2.5
+  resolution: "attr-accept@npm:2.2.5"
+  checksum: 10c0/9b4cb82213925cab2d568f71b3f1c7a7778f9192829aac39a281e5418cd00c04a88f873eb89f187e0bf786fa34f8d52936f178e62cbefb9254d57ecd88ada99b
+  languageName: node
+  linkType: hard
+
 "auto-bind@npm:~4.0.0":
   version: 4.0.0
   resolution: "auto-bind@npm:4.0.0"
@@ -17215,6 +17267,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"file-selector@npm:^2.1.0":
+  version: 2.1.2
+  resolution: "file-selector@npm:2.1.2"
+  dependencies:
+    tslib: "npm:^2.7.0"
+  checksum: 10c0/fe827e0e95410aacfcc3eabc38c29cc36055257f03c1c06b631a2b5af9730c142ad2c52f5d64724d02231709617bda984701f52bd1f4b7aca50fb6585a27c1d2
+  languageName: node
+  linkType: hard
+
 "file-system-cache@npm:^1.0.5":
   version: 1.0.5
   resolution: "file-system-cache@npm:1.0.5"
@@ -17414,6 +17475,15 @@ __metadata:
     inherits: "npm:^2.0.3"
     readable-stream: "npm:^2.3.6"
   checksum: 10c0/2cd4f65b728d5f388197a03dafabc6a5e4f0c2ed1a2d912e288f7aa1c2996dd90875e55b50cf32c78dca55ad2e2dfae5d3db09b223838388033d87cf5920dd87
+  languageName: node
+  linkType: hard
+
+"focus-trap@npm:7.6.4":
+  version: 7.6.4
+  resolution: "focus-trap@npm:7.6.4"
+  dependencies:
+    tabbable: "npm:^6.2.0"
+  checksum: 10c0/ed810d47fd904a5e0269e822d98e634c6cbdd7222046c712ef299bdd26a422db754e3cec04e6517065b12be4b47f65c21f6244e0c07a308b1060985463d518cb
   languageName: node
   linkType: hard
 
@@ -28861,6 +28931,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dropzone@npm:^14.3.5":
+  version: 14.3.8
+  resolution: "react-dropzone@npm:14.3.8"
+  dependencies:
+    attr-accept: "npm:^2.2.4"
+    file-selector: "npm:^2.1.0"
+    prop-types: "npm:^15.8.1"
+  peerDependencies:
+    react: ">= 16.8 || 18.0.0"
+  checksum: 10c0/e17b1832783cda7b8824fe9370e99185d1abbdd5e4980b2985d6321c5768c8de18ff7b9ad550c809ee9743269dea608ff74d5208062754ce8377ad022897b278
+  languageName: node
+  linkType: hard
+
 "react-element-to-jsx-string@npm:^14.3.4":
   version: 14.3.4
   resolution: "react-element-to-jsx-string@npm:14.3.4"
@@ -32624,7 +32707,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tabbable@npm:^6.0.0":
+"tabbable@npm:^6.0.0, tabbable@npm:^6.2.0":
   version: 6.2.0
   resolution: "tabbable@npm:6.2.0"
   checksum: 10c0/ced8b38f05f2de62cd46836d77c2646c42b8c9713f5bd265daf0e78ff5ac73d3ba48a7ca45f348bafeef29b23da7187c72250742d37627883ef89cbd7fa76898
@@ -33366,7 +33449,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.8.1":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.7.0, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62

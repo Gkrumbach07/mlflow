@@ -1,0 +1,636 @@
+/* PatternFly shell overrides for Databricks components */
+
+.pf-shell-root {
+  min-height: 100vh;
+  background: transparent !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  font-family: var(--pf-t--global--FontFamily--text, "Red Hat Text", "Helvetica Neue", Arial, sans-serif) !important;
+}
+
+.pf-shell-root * {
+  font-family: var(--pf-t--global--FontFamily--text, "Red Hat Text", "Helvetica Neue", Arial, sans-serif) !important;
+}
+
+.pf-shell-root h1,
+.pf-shell-root h2,
+.pf-shell-root h3,
+.pf-shell-root h4,
+.pf-shell-root h5,
+.pf-shell-root h6 {
+  font-family: var(--pf-t--global--FontFamily--heading, "Red Hat Display", "Helvetica Neue", Arial, sans-serif) !important;
+  font-weight: 600 !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+}
+
+/* Header styling */
+.pf-shell-root header[class*='css'] {
+  background: var(--pf-t--global--background--color--200, #f5f5f5) !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 var(--pf-t--global--spacer--lg, 1.5rem) !important;
+  height: auto !important;
+  min-height: 64px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Sidebar styling */
+.pf-shell-root aside[class*='css'] {
+  background: var(--pf-t--global--background--color--200, #f5f5f5) !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: var(--pf-t--global--spacer--md, 1rem) 0 !important;
+}
+
+/* Sidebar nav list */
+.pf-shell-root aside nav ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.pf-shell-root aside nav li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Sidebar nav items */
+.pf-shell-root aside nav a {
+  padding: 0.5rem 1rem !important;
+  color: #151515 !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  transition: background-color 0.15s ease !important;
+  border-left: 3px solid transparent !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 400 !important;
+  background-color: transparent !important;
+}
+
+/* Force non-active links to be dark */
+.pf-shell-root aside nav a:not([aria-current='page']):not(.active) {
+  color: #151515 !important;
+}
+
+.pf-shell-root aside nav a:not([aria-current='page']):not(.active):visited {
+  color: #151515 !important;
+}
+
+/* Sidebar nav icons */
+.pf-shell-root aside nav a .anticon,
+.pf-shell-root aside nav a svg {
+  flex-shrink: 0 !important;
+  width: 1rem !important;
+  height: 1rem !important;
+  font-size: 1rem !important;
+  color: inherit !important;
+}
+
+.pf-shell-root aside nav a:not([aria-current='page']):not(.active) .anticon,
+.pf-shell-root aside nav a:not([aria-current='page']):not(.active) svg {
+  color: #151515 !important;
+}
+
+.pf-shell-root aside nav a:not([aria-current='page']):not(.active) path {
+  fill: #151515 !important;
+}
+
+.pf-shell-root aside nav a:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.pf-shell-root aside nav a[aria-current='page'],
+.pf-shell-root aside nav a.active {
+  background-color: #ffffff !important;
+  /* border-left-color: #0066cc !important; */
+  color: #151515 !important;
+  font-weight: 500 !important;
+  border-radius: 0 !important;
+}
+
+.pf-shell-root aside nav a[aria-current='page'] .anticon,
+.pf-shell-root aside nav a[aria-current='page'] svg,
+.pf-shell-root aside nav a.active .anticon,
+.pf-shell-root aside nav a.active svg {
+  color: #0066cc !important;
+}
+
+.pf-shell-root aside nav a[aria-current='page'] path,
+.pf-shell-root aside nav a.active path {
+  fill: #151515 !important;
+}
+
+/* Sidebar New button */
+.pf-shell-root aside button[class*='css'] {
+  margin: 0 var(--pf-t--global--spacer--md, 1rem) var(--pf-t--global--spacer--md, 1rem) !important;
+}
+
+/* Root route container - gray background */
+.pf-shell-root div[class*='MlflowRootRoute'] {
+  background: var(--pf-t--global--background--color--200, #f5f5f5) !important;
+  min-height: 100vh !important;
+}
+
+/* Main content area */
+.pf-shell-root main[class*='css'] {
+  padding: var(--pf-t--global--spacer--xl, 2rem) !important;
+  background: #ffffff !important;
+}
+
+/* Page container - seamless with main */
+.pf-shell-root div[class*='PageContainer'] {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: var(--pf-t--global--spacer--lg, 1.5rem) !important;
+}
+
+/* Ensure all nested content areas are also transparent */
+.pf-shell-root div[class*='PageContainer'] > div {
+  background: transparent !important;
+}
+
+/* Page header within container */
+.pf-shell-root div[class*='PageHeader'],
+.pf-shell-root div[class*='getHeaderStyles'] {
+  margin-bottom: var(--pf-t--global--spacer--lg, 1.5rem) !important;
+  padding-bottom: var(--pf-t--global--spacer--md, 1rem) !important;
+  border-bottom: 1px solid var(--pf-t--color--gray--20, #e0e0e0) !important;
+}
+
+/* Scrollable page wrapper */
+.pf-shell-root div[class*='ScrollablePageWrapper'] {
+  background: transparent !important;
+}
+
+/* Databricks Button component overrides (Emotion-generated) */
+.pf-shell-root button[class*='du-bois-light-btn'],
+.pf-shell-root button[class*='du-bois-dark-btn'] {
+  border-radius: var(--pf-t--global--border--radius--small, 4px) !important;
+  font-weight: 600 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: none !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-primary,
+.pf-shell-root button.du-bois-dark-btn-primary {
+  background-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  color: #ffffff !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-primary:hover,
+.pf-shell-root button.du-bois-dark-btn-primary:hover {
+  background-color: var(--pf-t--color--blue--60, #004d99) !important;
+  border-color: var(--pf-t--color--blue--60, #004d99) !important;
+  color: #ffffff !important;
+}
+
+.pf-shell-root button[class*='du-bois-light-btn']:not(.du-bois-light-btn-primary):not(.du-bois-light-btn-link):not(.du-bois-light-btn-dangerous),
+.pf-shell-root button[class*='du-bois-dark-btn']:not(.du-bois-dark-btn-primary):not(.du-bois-dark-btn-link):not(.du-bois-dark-btn-dangerous) {
+  background-color: transparent !important;
+  border-color: var(--pf-t--color--gray--30, #c7c7c7) !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+}
+
+.pf-shell-root button[class*='du-bois-light-btn']:not(.du-bois-light-btn-primary):not(.du-bois-light-btn-link):not(.du-bois-light-btn-dangerous):hover,
+.pf-shell-root button[class*='du-bois-dark-btn']:not(.du-bois-dark-btn-primary):not(.du-bois-dark-btn-link):not(.du-bois-dark-btn-dangerous):hover {
+  background-color: rgba(0, 102, 204, 0.08) !important;
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-link,
+.pf-shell-root button.du-bois-dark-btn-link {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+  box-shadow: none !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-link:hover,
+.pf-shell-root button.du-bois-dark-btn-link:hover {
+  background-color: rgba(0, 102, 204, 0.08) !important;
+  color: var(--pf-t--color--blue--60, #004d99) !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-dangerous.du-bois-light-btn-primary,
+.pf-shell-root button.du-bois-dark-btn-dangerous.du-bois-dark-btn-primary {
+  background-color: var(--pf-t--color--red-orange--60, #b1380b) !important;
+  border-color: var(--pf-t--color--red-orange--60, #b1380b) !important;
+  color: #ffffff !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-dangerous.du-bois-light-btn-primary:hover,
+.pf-shell-root button.du-bois-dark-btn-dangerous.du-bois-dark-btn-primary:hover {
+  background-color: var(--pf-t--color--red-orange--70, #731f00) !important;
+  border-color: var(--pf-t--color--red-orange--70, #731f00) !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-dangerous:not(.du-bois-light-btn-primary),
+.pf-shell-root button.du-bois-dark-btn-dangerous:not(.du-bois-dark-btn-primary) {
+  background-color: transparent !important;
+  border-color: var(--pf-t--color--red-orange--60, #b1380b) !important;
+  color: var(--pf-t--color--red-orange--60, #b1380b) !important;
+}
+
+.pf-shell-root button.du-bois-light-btn-dangerous:not(.du-bois-light-btn-primary):hover,
+.pf-shell-root button.du-bois-dark-btn-dangerous:not(.du-bois-dark-btn-primary):hover {
+  background-color: rgba(177, 56, 11, 0.08) !important;
+  border-color: var(--pf-t--color--red-orange--70, #731f00) !important;
+  color: var(--pf-t--color--red-orange--70, #731f00) !important;
+}
+
+.pf-shell-root button[class*='du-bois-light-btn'][disabled],
+.pf-shell-root button[class*='du-bois-dark-btn'][disabled] {
+  background-color: transparent !important;
+  border-color: var(--pf-t--color--gray--30, #c7c7c7) !important;
+  color: var(--pf-t--color--gray--40, #a3a3a3) !important;
+  opacity: 0.6 !important;
+}
+
+/* Databricks TableUI component overrides (matches PF table) */
+/* Table wrapper */
+.pf-shell-root div[class*='tableWrapper'] {
+  font-family: var(--pf-t--global--FontFamily--text, "Red Hat Text", "Helvetica Neue", Arial, sans-serif) !important;
+}
+
+/* Table container */
+.pf-shell-root div[role='table'][class*='css'] {
+  font-family: var(--pf-t--global--FontFamily--text, "Red Hat Text", "Helvetica Neue", Arial, sans-serif) !important;
+  /* border: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important; */
+  border-radius: 0 !important;
+  background: var(--pf-t--global--background--color--100, #ffffff) !important;
+  overflow: hidden !important;
+}
+
+/* Table header row */
+.pf-shell-root div[role='row'].table-isHeader {
+  border-bottom: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important;
+  background: transparent !important;
+}
+
+/* Table header cells */
+.pf-shell-root div[role='columnheader'][class*='cell-header'] {
+  background: transparent !important;
+  border: none !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  padding: 1rem !important;
+}
+
+/* Table header text */
+.pf-shell-root .table-header-text {
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+}
+
+/* Table header button wrapper */
+.pf-shell-root div[role='columnheader'] div[class*='headerButtonTarget'] {
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.pf-shell-root div[role='columnheader'] div[class*='headerButtonTarget']:hover {
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+  background: transparent !important;
+}
+
+.pf-shell-root div[role='columnheader'] div[class*='headerButtonTarget']:hover .table-header-text {
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+/* Table header sort icon */
+.pf-shell-root .table-header-icon-container {
+  color: var(--pf-t--color--gray--50, #707070) !important;
+}
+
+.pf-shell-root div[role='columnheader']:hover .table-header-icon-container {
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+/* Table body rows */
+.pf-shell-root div[role='table'] > div[role='row']:not(.table-isHeader) {
+  border-bottom: 1px solid var(--pf-t--color--gray--20, #e0e0e0) !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  background: transparent !important;
+}
+
+/* Remove border from last row */
+.pf-shell-root div[role='table'] > div[role='row']:last-child {
+  border-bottom: none !important;
+}
+
+/* Table cells */
+.pf-shell-root div[role='cell'] {
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  font-size: 0.875rem !important;
+  padding: 1rem !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Table row hover */
+.pf-shell-root div[role='row']:not(.table-isHeader):hover {
+  background: var(--pf-t--color--gray--10, #f2f2f2) !important;
+}
+
+.pf-shell-root div[role='row']:not(.table-isHeader):hover div[role='cell'] {
+  background: transparent !important;
+}
+
+/* Table empty state */
+.pf-shell-root div[class*='Empty'] {
+  padding: 2rem !important;
+}
+
+/* Table typography inside cells */
+.pf-shell-root div[role='table'] span.du-bois-light-typography {
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+}
+
+/* Databricks Typography/links */
+.pf-shell-root a[class*='css'] {
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+.pf-shell-root a[class*='css']:hover {
+  color: var(--pf-t--color--blue--60, #004d99) !important;
+  text-decoration: underline !important;
+}
+
+/* Databricks Select/Dropdown overrides */
+.pf-shell-root .du-bois-light-select-selector,
+.pf-shell-root .du-bois-dark-select-selector {
+  border-radius: var(--pf-t--global--border--radius--tiny, 4px) !important;
+  border-color: var(--pf-t--color--gray--30, #c7c7c7) !important;
+  background: var(--pf-t--global--background--color--100, #ffffff) !important;
+}
+
+.pf-shell-root .du-bois-light-select-focused .du-bois-light-select-selector,
+.pf-shell-root .du-bois-dark-select-focused .du-bois-dark-select-selector {
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  box-shadow: 0 0 0 1px var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+/* Databricks Checkbox overrides */
+.pf-shell-root .du-bois-light-checkbox-inner,
+.pf-shell-root .du-bois-dark-checkbox-inner {
+  border-color: var(--pf-t--color--gray--30, #c7c7c7) !important;
+  border-radius: var(--pf-t--global--border--radius--tiny, 4px) !important;
+}
+
+.pf-shell-root .du-bois-light-checkbox-checked .du-bois-light-checkbox-inner,
+.pf-shell-root .du-bois-dark-checkbox-checked .du-bois-dark-checkbox-inner {
+  background-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+/* Page title styling */
+.pf-shell-root h2[class*='title'] {
+  font-size: var(--pf-t--global--font--size--2xl, 1.5rem) !important;
+  margin-bottom: var(--pf-t--global--spacer--lg, 1.5rem) !important;
+}
+
+/* Ant Design button overrides */
+.pf-shell-root .ant-btn {
+  border-radius: var(--pf-v6-global--BorderRadius--md, 4px);
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ant Design table overrides */
+.pf-shell-root .ant-table {
+  background: var(--pf-t--global--background--color--100, #ffffff) !important;
+  border: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important;
+  border-radius: var(--pf-t--global--border--radius--small, 6px) !important;
+  box-shadow: var(--pf-t--global--box-shadow--lg, 0 8px 24px rgba(3, 3, 3, 0.32)) !important;
+}
+
+.pf-shell-root .ant-table-thead > tr > th {
+  background: var(--pf-t--color--gray--10, #f2f2f2) !important;
+  border-bottom: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  font-weight: 600 !important;
+  padding: var(--pf-t--global--spacer--md, 1rem) !important;
+}
+
+.pf-shell-root .ant-table-tbody > tr > td {
+  color: var(--pf-t--color--gray--60, #4d4d4d) !important;
+  padding: var(--pf-t--global--spacer--md, 1rem) !important;
+}
+
+.pf-shell-root .ant-table-tbody > tr:hover > td {
+  background: rgba(0, 102, 204, 0.08) !important;
+}
+
+/* Ant Design card overrides */
+.pf-shell-root .ant-card {
+  background: var(--pf-t--global--background--color--100, #ffffff) !important;
+  border: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important;
+  border-radius: var(--pf-t--global--border--radius--small, 6px) !important;
+  box-shadow: var(--pf-t--global--box-shadow--md, 0 4px 9px rgba(3, 3, 3, 0.15)) !important;
+}
+
+.pf-shell-root .ant-card-head {
+  background: var(--pf-t--color--gray--10, #f2f2f2) !important;
+  border-bottom: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  font-weight: 600 !important;
+  padding: var(--pf-t--global--spacer--md, 1rem) var(--pf-t--global--spacer--lg, 1.5rem) !important;
+}
+
+.pf-shell-root .ant-card-body {
+  padding: var(--pf-t--global--spacer--lg, 1.5rem) !important;
+}
+
+/* Databricks Input Group component overrides (matches PF input-group) */
+.pf-shell-root span.du-bois-light-input-group,
+.pf-shell-root span.du-bois-dark-input-group {
+  display: inline-flex !important;
+  gap: 0.25rem !important;
+  align-items: stretch !important;
+}
+
+.pf-shell-root span.du-bois-light-input-group-compact,
+.pf-shell-root span.du-bois-dark-input-group-compact {
+  gap: 0.25rem !important;
+}
+
+.pf-shell-root .du-bois-light-input-affix-wrapper,
+.pf-shell-root .du-bois-dark-input-affix-wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+  border: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important;
+  border-radius: 6px !important;
+  background: var(--pf-t--global--background--color--100, #ffffff) !important;
+  padding: 0 0.5rem !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.pf-shell-root .du-bois-light-input-affix-wrapper:hover,
+.pf-shell-root .du-bois-dark-input-affix-wrapper:hover {
+  border-color: var(--pf-t--color--gray--50, #707070) !important;
+}
+
+.pf-shell-root .du-bois-light-input-affix-wrapper:focus-within,
+.pf-shell-root .du-bois-dark-input-affix-wrapper:focus-within {
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  box-shadow: 0 0 0 1px var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+.pf-shell-root input.du-bois-light-input,
+.pf-shell-root input.du-bois-dark-input {
+  border: none !important;
+  background: transparent !important;
+  font-size: 0.875rem !important;
+  padding: 0 !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  box-shadow: none !important;
+  outline: none !important;
+  flex: 1 !important;
+  min-height: auto !important;
+  height: auto !important;
+  line-height: 1.5 !important;
+}
+
+.pf-shell-root input.du-bois-light-input::placeholder,
+.pf-shell-root input.du-bois-dark-input::placeholder {
+  color: var(--pf-t--color--gray--50, #707070) !important;
+}
+
+/* Input group compact - buttons in the group */
+.pf-shell-root .du-bois-light-input-group-compact button[class*='du-bois'],
+.pf-shell-root .du-bois-dark-input-group-compact button[class*='du-bois'] {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 0.5rem 1rem !important;
+  border: 1px solid var(--pf-t--color--gray--30, #c7c7c7) !important;
+  border-radius: 6px !important;
+  background-color: var(--pf-t--global--background--color--100, #ffffff) !important;
+  color: var(--pf-t--color--gray--95, #151515) !important;
+  box-sizing: border-box !important;
+  line-height: 1.5 !important;
+}
+
+.pf-shell-root .du-bois-light-input-group-compact button[class*='du-bois']:hover,
+.pf-shell-root .du-bois-dark-input-group-compact button[class*='du-bois']:hover {
+  background-color: var(--pf-t--color--gray--10, #f2f2f2) !important;
+  border-color: var(--pf-t--color--gray--50, #707070) !important;
+}
+
+/* Input suffix icons */
+.pf-shell-root .du-bois-light-input-suffix,
+.pf-shell-root .du-bois-dark-input-suffix {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  color: var(--pf-t--color--gray--50, #707070) !important;
+}
+
+/* Ant Design form control overrides */
+.pf-shell-root .ant-input,
+.pf-shell-root .ant-select-selector,
+.pf-shell-root .ant-picker {
+  border-radius: var(--pf-t--global--border--radius--tiny, 4px) !important;
+  border-color: var(--pf-t--color--gray--30, #c7c7c7) !important;
+  font-size: var(--pf-t--global--font--size--body--default, 0.875rem) !important;
+}
+
+.pf-shell-root .ant-input:focus,
+.pf-shell-root .ant-select-selector:focus-within,
+.pf-shell-root .ant-picker-focused {
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  box-shadow: 0 0 0 1px var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+/* Databricks Modal component overrides */
+.pf-shell-root .du-bois-light-modal-content,
+.pf-shell-root .du-bois-dark-modal-content,
+.pf-shell-root .ant-modal-content {
+  border-radius: var(--pf-t--global--border--radius--medium, 16px) !important;
+  box-shadow: var(--pf-t--global--box-shadow--lg, 0 10px 24px rgba(3, 3, 3, 0.32)) !important;
+}
+
+.pf-shell-root .du-bois-light-modal-header,
+.pf-shell-root .du-bois-dark-modal-header,
+.pf-shell-root .ant-modal-header {
+  background: var(--pf-t--global--background--color--100, #ffffff) !important;
+  border-bottom: 1px solid var(--pf-t--color--gray--20, #e0e0e0) !important;
+  padding: var(--pf-t--global--spacer--lg, 1.5rem) !important;
+}
+
+.pf-shell-root .du-bois-light-modal-body,
+.pf-shell-root .du-bois-dark-modal-body,
+.pf-shell-root .ant-modal-body {
+  padding: var(--pf-t--global--spacer--lg, 1.5rem) !important;
+}
+
+.pf-shell-root .du-bois-light-modal-footer,
+.pf-shell-root .du-bois-dark-modal-footer,
+.pf-shell-root .ant-modal-footer {
+  border-top: 1px solid var(--pf-t--color--gray--20, #e0e0e0) !important;
+  padding: var(--pf-t--global--spacer--md, 1rem) var(--pf-t--global--spacer--lg, 1.5rem) !important;
+}
+
+/* Ant Design tabs overrides */
+.pf-shell-root .ant-tabs-tab {
+  color: var(--pf-t--color--gray--60, #4d4d4d) !important;
+  font-size: var(--pf-t--global--font--size--body--default, 0.875rem) !important;
+}
+
+.pf-shell-root .ant-tabs-tab:hover {
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+.pf-shell-root .ant-tabs-tab-active {
+  color: var(--pf-t--color--blue--50, #0066cc) !important;
+  font-weight: 600 !important;
+}
+
+.pf-shell-root .ant-tabs-ink-bar {
+  background-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  height: 3px !important;
+}
+
+/* Databricks Select component overrides */
+.pf-shell-root .du-bois-light-select,
+.pf-shell-root .du-bois-dark-select {
+  border-radius: var(--pf-t--global--border--radius--tiny, 4px) !important;
+}
+
+.pf-shell-root .du-bois-light-select-selector,
+.pf-shell-root .du-bois-dark-select-selector {
+  border-color: var(--pf-t--color--gray--30, #c7c7c7) !important;
+}
+
+.pf-shell-root .du-bois-light-select:hover .du-bois-light-select-selector,
+.pf-shell-root .du-bois-dark-select:hover .du-bois-dark-select-selector {
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+}
+
+.pf-shell-root .du-bois-light-select-focused .du-bois-light-select-selector,
+.pf-shell-root .du-bois-dark-select-focused .du-bois-dark-select-selector {
+  border-color: var(--pf-t--color--blue--50, #0066cc) !important;
+  box-shadow: 0 0 0 1px var(--pf-t--color--blue--50, #0066cc) !important;
+}
+

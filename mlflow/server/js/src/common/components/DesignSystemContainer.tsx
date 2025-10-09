@@ -1,6 +1,11 @@
-import React, { useCallback, useRef } from 'react';
-import { DesignSystemProvider, DesignSystemThemeProvider } from '@databricks/design-system';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { DesignSystemProvider, DesignSystemThemeProvider, useDesignSystemTheme } from '@databricks/design-system';
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { ColorsPaletteDatalist } from './ColorsPaletteDatalist';
+import { usePatternFlyTheme } from '../hooks/usePatternFlyTheme';
+import { buildPatternFlyTheme } from '../theme/buildPatternFlyTheme';
+import '@patternfly/react-core/dist/styles/base.css';
+import './patternfly/pf-shell-overrides.css';
 
 const isInsideShadowDOM = (element: HTMLDivElement | null): boolean =>
   element instanceof window.Node && element.getRootNode() !== document;
@@ -27,6 +32,11 @@ export const MLflowImagePreviewContainer = React.createContext({
 export const DesignSystemContainer = (props: DesignSystemContainerProps) => {
   const modalContainerElement = useRef<HTMLDivElement | null>(null);
   const { isDarkTheme = false, children } = props;
+  const { isPatternFlyEnabled } = usePatternFlyTheme();
+
+  const containerClassName = useMemo(() => {
+    return isPatternFlyEnabled ? 'pf-shell-root' : '';
+  }, [isPatternFlyEnabled]);
 
   const getPopupContainer = useCallback(() => {
     const modelContainerEle = modalContainerElement.current;
@@ -50,7 +60,7 @@ export const DesignSystemContainer = (props: DesignSystemContainerProps) => {
     <ThemeProvider isDarkTheme={isDarkTheme}>
       <DesignSystemProvider getPopupContainer={getPopupContainer} {...props}>
         <MLflowImagePreviewContainer.Provider value={{ getImagePreviewPopupContainer }}>
-          {children}
+          <div className={containerClassName}>{children}</div>
           <div ref={modalContainerElement} />
         </MLflowImagePreviewContainer.Provider>
       </DesignSystemProvider>
