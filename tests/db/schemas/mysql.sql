@@ -26,7 +26,7 @@ CREATE TABLE evaluation_datasets (
 	last_update_time BIGINT,
 	created_by VARCHAR(255),
 	last_updated_by VARCHAR(255),
-	workspace VARCHAR(63) DEFAULT 'default' NOT NULL,
+	workspace VARCHAR(63) NOT NULL,
 	PRIMARY KEY (dataset_id)
 )
 
@@ -106,6 +106,7 @@ CREATE TABLE webhooks (
 CREATE TABLE workspaces (
 	name VARCHAR(63) NOT NULL,
 	description TEXT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	PRIMARY KEY (name)
 )
 
@@ -194,7 +195,7 @@ CREATE TABLE model_versions (
 	status_message VARCHAR(500),
 	run_link VARCHAR(500),
 	storage_location VARCHAR(500),
-	workspace VARCHAR(63) DEFAULT 'default' NOT NULL,
+	workspace VARCHAR(63) NOT NULL,
 	PRIMARY KEY (workspace, name, version),
 	CONSTRAINT fk_model_versions_registered_models FOREIGN KEY(workspace, name) REFERENCES registered_models (workspace, name) ON UPDATE CASCADE
 )
@@ -204,7 +205,7 @@ CREATE TABLE registered_model_aliases (
 	alias VARCHAR(256) NOT NULL,
 	version INTEGER NOT NULL,
 	name VARCHAR(256) NOT NULL,
-	workspace VARCHAR(63) DEFAULT 'default' NOT NULL,
+	workspace VARCHAR(63) NOT NULL,
 	PRIMARY KEY (workspace, name, alias),
 	CONSTRAINT fk_registered_model_aliases_registered_models FOREIGN KEY(workspace, name) REFERENCES registered_models (workspace, name) ON DELETE CASCADE ON UPDATE CASCADE
 )
@@ -214,7 +215,7 @@ CREATE TABLE registered_model_tags (
 	key VARCHAR(250) NOT NULL,
 	value VARCHAR(5000),
 	name VARCHAR(256) NOT NULL,
-	workspace VARCHAR(63) DEFAULT 'default' NOT NULL,
+	workspace VARCHAR(63) NOT NULL,
 	PRIMARY KEY (workspace, key, name),
 	CONSTRAINT fk_registered_model_tags_registered_models FOREIGN KEY(workspace, name) REFERENCES registered_models (workspace, name) ON UPDATE CASCADE
 )
@@ -369,7 +370,7 @@ CREATE TABLE model_version_tags (
 	value TEXT,
 	name VARCHAR(256) NOT NULL,
 	version INTEGER NOT NULL,
-	workspace VARCHAR(63) DEFAULT 'default' NOT NULL,
+	workspace VARCHAR(63) NOT NULL,
 	PRIMARY KEY (workspace, key, name, version),
 	CONSTRAINT fk_model_version_tags_model_versions FOREIGN KEY(workspace, name, version) REFERENCES model_versions (workspace, name, version) ON UPDATE CASCADE
 )

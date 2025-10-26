@@ -26,7 +26,7 @@ CREATE TABLE evaluation_datasets (
 	last_update_time BIGINT,
 	created_by VARCHAR(255) COLLATE "SQL_Latin1_General_CP1_CI_AS",
 	last_updated_by VARCHAR(255) COLLATE "SQL_Latin1_General_CP1_CI_AS",
-	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" DEFAULT ('default') NOT NULL,
+	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	CONSTRAINT evaluation_datasets_pk PRIMARY KEY (dataset_id)
 )
 
@@ -105,6 +105,7 @@ CREATE TABLE webhooks (
 CREATE TABLE workspaces (
 	name VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	description VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS",
+	created_at DATETIME DEFAULT (sysutcdatetime()) NOT NULL,
 	CONSTRAINT workspaces_pk PRIMARY KEY (name)
 )
 
@@ -192,7 +193,7 @@ CREATE TABLE model_versions (
 	status_message VARCHAR(500) COLLATE "SQL_Latin1_General_CP1_CI_AS",
 	run_link VARCHAR(500) COLLATE "SQL_Latin1_General_CP1_CI_AS",
 	storage_location VARCHAR(500) COLLATE "SQL_Latin1_General_CP1_CI_AS",
-	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" DEFAULT ('default') NOT NULL,
+	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	CONSTRAINT model_version_pk PRIMARY KEY (workspace, name, version),
 	CONSTRAINT fk_model_versions_registered_models FOREIGN KEY(workspace, name) REFERENCES registered_models (workspace, name) ON UPDATE CASCADE
 )
@@ -202,7 +203,7 @@ CREATE TABLE registered_model_aliases (
 	alias VARCHAR(256) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	version INTEGER NOT NULL,
 	name VARCHAR(256) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
-	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" DEFAULT ('default') NOT NULL,
+	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	CONSTRAINT registered_model_alias_pk PRIMARY KEY (workspace, name, alias),
 	CONSTRAINT fk_registered_model_aliases_registered_models FOREIGN KEY(workspace, name) REFERENCES registered_models (workspace, name) ON DELETE CASCADE ON UPDATE CASCADE
 )
@@ -212,7 +213,7 @@ CREATE TABLE registered_model_tags (
 	key VARCHAR(250) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	value VARCHAR(5000) COLLATE "SQL_Latin1_General_CP1_CI_AS",
 	name VARCHAR(256) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
-	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" DEFAULT ('default') NOT NULL,
+	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	CONSTRAINT registered_model_tag_pk PRIMARY KEY (workspace, key, name),
 	CONSTRAINT fk_registered_model_tags_registered_models FOREIGN KEY(workspace, name) REFERENCES registered_models (workspace, name) ON UPDATE CASCADE
 )
@@ -361,7 +362,7 @@ CREATE TABLE model_version_tags (
 	value VARCHAR COLLATE "SQL_Latin1_General_CP1_CI_AS",
 	name VARCHAR(256) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	version INTEGER NOT NULL,
-	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" DEFAULT ('default') NOT NULL,
+	workspace VARCHAR(63) COLLATE "SQL_Latin1_General_CP1_CI_AS" NOT NULL,
 	CONSTRAINT model_version_tag_pk PRIMARY KEY (workspace, key, name, version),
 	CONSTRAINT fk_model_version_tags_model_versions FOREIGN KEY(workspace, name, version) REFERENCES model_versions (workspace, name, version) ON UPDATE CASCADE
 )
