@@ -30,7 +30,11 @@ import {
   setActiveWorkspace,
   subscribeToWorkspaceChanges,
   getCurrentWorkspace,
+  getAvailableWorkspaces,
+  hasWorkspaceAccess,
 } from './common/utils/WorkspaceUtils';
+import { WorkspacePermissionError } from './common/components/WorkspacePermissionError';
+import { WorkspaceSelectionPrompt } from './common/components/WorkspaceSelectionPrompt';
 
 /**
  * This is the MLflow default entry/landing route.
@@ -57,11 +61,13 @@ const MlflowRootRoute = ({
   setIsDarkTheme,
   useChildRoutesOutlet = false,
   routes,
+  invalidWorkspace,
 }: {
   isDarkTheme?: boolean;
   setIsDarkTheme?: (isDarkTheme: boolean) => void;
   useChildRoutesOutlet?: boolean;
   routes?: MlflowRouteDef[];
+  invalidWorkspace?: string | null;
 }) => {
   useInitializeExperimentRunColors();
 
@@ -105,17 +111,21 @@ const MlflowRootRoute = ({
               overflowX: 'auto',
             }}
           >
+            {invalidWorkspace ? (
+              <WorkspacePermissionError workspaceName={invalidWorkspace} />
+            ) : (
             <React.Suspense fallback={<LegacySkeleton />}>
               {useChildRoutesOutlet ? (
                 <Outlet />
               ) : (
                 <Routes>
                   {routes?.map(({ element, pageId, path }) => (
-                    <Route key={`${path}-${pageId}`} path={path} element={element} />
+                      <Route key={`${path}-${pageId}`} path={path} element={element} />
                   ))}
                 </Routes>
               )}
             </React.Suspense>
+            )}
           </main>
         </div>
       </AppErrorBoundary>
@@ -123,20 +133,73 @@ const MlflowRootRoute = ({
   );
 };
 
-const WorkspaceRouterSync = () => {
+const WorkspaceAwareRootRoute = (props: React.ComponentProps<typeof MlflowRootRoute>) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [invalidWorkspace, setInvalidWorkspace] = useState<string | null>(null);
+  const [workspacesLoadedOnce, setWorkspacesLoadedOnce] = useState(false);
+  const [showWorkspacePrompt, setShowWorkspacePrompt] = useState(false);
+
+  // Track when workspaces have been loaded at least once
+  useEffect(() => {
+    const checkWorkspacesLoaded = () => {
+      const availableWorkspaces = getAvailableWorkspaces();
+      if (availableWorkspaces.length > 0 && !workspacesLoadedOnce) {
+        setWorkspacesLoadedOnce(true);
+      }
+    };
+
+    // Check immediately
+    checkWorkspacesLoaded();
+
+    // Check periodically until loaded
+    const interval = setInterval(checkWorkspacesLoaded, 100);
+
+    // Clean up after 5 seconds (workspaces should load by then)
+    const timeout = setTimeout(() => clearInterval(interval), 5000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [workspacesLoadedOnce]);
 
   useEffect(() => {
     if (!shouldEnableWorkspaces()) {
       setActiveWorkspace(null);
+      setInvalidWorkspace(null);
       return;
     }
 
     const workspace = extractWorkspaceFromPathname(location.pathname);
     const activeWorkspace = getCurrentWorkspace();
+    const availableWorkspaces = getAvailableWorkspaces();
+
     if (!workspace) {
-      const fallbackWorkspace = activeWorkspace || DEFAULT_WORKSPACE_NAME;
+      setInvalidWorkspace(null);
+      
+      // If on root path and no stored workspace, show selection prompt
+      if (location.pathname === '/' && !activeWorkspace && workspacesLoadedOnce && availableWorkspaces.length > 0) {
+        setShowWorkspacePrompt(true);
+        return;
+      }
+      
+      // Determine fallback workspace intelligently
+      let fallbackWorkspace = activeWorkspace;
+      
+      // If no stored workspace or stored workspace not in available list
+      if (!fallbackWorkspace || (availableWorkspaces.length > 0 && !availableWorkspaces.includes(fallbackWorkspace))) {
+        // Try "default" first if it's available
+        if (availableWorkspaces.length > 0) {
+          fallbackWorkspace = availableWorkspaces.includes(DEFAULT_WORKSPACE_NAME)
+            ? DEFAULT_WORKSPACE_NAME
+            : availableWorkspaces[0];
+        } else {
+          // Workspaces not loaded yet, use default as temporary fallback
+          fallbackWorkspace = DEFAULT_WORKSPACE_NAME;
+        }
+      }
+      
       if (activeWorkspace !== fallbackWorkspace) {
         setActiveWorkspace(fallbackWorkspace);
       }
@@ -149,20 +212,55 @@ const WorkspaceRouterSync = () => {
       return;
     }
 
-    if (workspace !== activeWorkspace) {
+    // Only validate after workspaces have been loaded at least once
+    if (workspacesLoadedOnce && availableWorkspaces.length > 0 && !hasWorkspaceAccess(workspace)) {
+      // Show permission error page - workspace doesn't exist
+      // DON'T save invalid workspace to localStorage
+      setInvalidWorkspace(workspace);
+      return;
+    }
+
+    // Valid workspace or still loading - clear any error
+    if (workspacesLoadedOnce || availableWorkspaces.length === 0) {
+      // Only clear error if we haven't validated yet (still loading)
+      // OR if we validated and it's OK
+      if (!invalidWorkspace || (availableWorkspaces.length > 0 && hasWorkspaceAccess(workspace))) {
+        setInvalidWorkspace(null);
+      }
+    }
+    
+    // Only save to localStorage if workspace is valid
+    // (If workspaces not loaded yet, assume valid and save)
+    // (If workspaces loaded and workspace has access, save)
+    const isValidWorkspace = availableWorkspaces.length === 0 || hasWorkspaceAccess(workspace);
+    if (workspace !== activeWorkspace && isValidWorkspace) {
       setActiveWorkspace(workspace);
     }
-  }, [location, navigate]);
+  }, [location, navigate, workspacesLoadedOnce, invalidWorkspace]);
 
-  return null;
+  // Show workspace selection prompt if on root with no preference
+  if (showWorkspacePrompt) {
+    return (
+      <>
+        <MlflowRootRoute {...props} invalidWorkspace={invalidWorkspace} />
+        <WorkspaceSelectionPrompt
+          isOpen={showWorkspacePrompt}
+          onClose={() => {
+            setShowWorkspacePrompt(false);
+            // After closing without selection, redirect to first available workspace
+            const availableWorkspaces = getAvailableWorkspaces();
+            const fallbackWorkspace = availableWorkspaces[0] || DEFAULT_WORKSPACE_NAME;
+            setActiveWorkspace(fallbackWorkspace);
+            navigate(`/workspaces/${encodeURIComponent(fallbackWorkspace)}`, { replace: true });
+          }}
+        />
+      </>
+    );
+  }
+
+  // Pass invalidWorkspace to MlflowRootRoute so it can show error inside the layout
+  return <MlflowRootRoute {...props} invalidWorkspace={invalidWorkspace} />;
 };
-
-const WorkspaceAwareRootRoute = (props: React.ComponentProps<typeof MlflowRootRoute>) => (
-  <>
-    <WorkspaceRouterSync />
-    <MlflowRootRoute {...props} />
-  </>
-);
 
 const prefixPathWithWorkspace = (path?: string) => {
   if (!path) {

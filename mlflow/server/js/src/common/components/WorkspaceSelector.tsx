@@ -1,5 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, DropdownMenu, Input, Tooltip, useDesignSystemTheme } from '@databricks/design-system';
+import {
+  DialogCombobox,
+  DialogComboboxContent,
+  DialogComboboxTrigger,
+  DialogComboboxOptionList,
+  DialogComboboxOptionListSearch,
+  DialogComboboxOptionListSelectItem,
+  useDesignSystemTheme,
+  Tooltip,
+} from '@databricks/design-system';
 
 import { shouldEnableWorkspaces } from '../utils/FeatureUtils';
 import { fetchAPI, getAjaxUrl } from '../utils/FetchUtils';
@@ -18,7 +27,7 @@ export const WorkspaceSelector = () => {
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const { theme } = useDesignSystemTheme();
@@ -96,12 +105,12 @@ export const WorkspaceSelector = () => {
 
   // Client-side filtering
   const filteredOptions = useMemo(() => {
-    if (!searchTerm) {
+    if (!searchValue) {
       return options;
     }
-    const lowerSearch = searchTerm.toLowerCase();
+    const lowerSearch = searchValue.toLowerCase();
     return options.filter((workspace) => workspace.name.toLowerCase().includes(lowerSearch));
-  }, [options, searchTerm]);
+  }, [options, searchValue]);
 
   // Smart redirect - preserve navigation context
   const getNavigationSection = (pathname: string): string => {
@@ -124,7 +133,7 @@ export const WorkspaceSelector = () => {
     const targetPath = `/workspaces/${encodedWorkspace}${currentSection}`;
     
     navigate(targetPath);
-    setSearchTerm(''); // Clear search on selection
+    setSearchValue(''); // Clear search on selection
   };
 
   if (!workspacesEnabled) {
@@ -132,77 +141,74 @@ export const WorkspaceSelector = () => {
   }
 
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
-        <Button 
-          componentId="workspace_selector"
-          loading={loading}
-          type="tertiary"
-        >
-          {currentWorkspace}
-        </Button>
-      </DropdownMenu.Trigger>
-      
-      <DropdownMenu.Content 
-        align="start" 
-        css={{ 
-          minWidth: 250,
-          maxHeight: 400,
-          overflowY: 'auto',
-          zIndex: 9999, // Ensure dropdown appears above all other content
-        }}
+    <DialogCombobox
+      componentId="workspace_selector"
+      label="Workspace"
+      value={[currentWorkspace]}
+    >
+      <DialogComboboxTrigger
+        withInlineLabel={false}
+      placeholder="Select workspace"
+        renderDisplayedValue={() => currentWorkspace}
+        allowClear={false}
+      />
+      <DialogComboboxContent
+        style={{ zIndex: theme.options.zIndexBase + 100 }}
+      loading={loading}
       >
-        <div 
-          css={{ 
-            padding: theme.spacing.sm,
-            position: 'sticky',
-            top: 0,
-            backgroundColor: theme.colors.backgroundPrimary,
-            zIndex: 1,
-          }}
-          onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing when clicking input
-        >
-          <Input
-            placeholder="Filter workspaces..."
-            value={searchTerm}
-            onChange={(e) => {
-              e.stopPropagation(); // Prevent event bubbling
-              setSearchTerm(e.target.value);
-            }}
-            onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing
-            componentId="workspace_filter"
-            autoFocus
-          />
-        </div>
-        
         {loadFailed && (
-          <DropdownMenu.Label css={{ color: theme.colors.textValidationDanger }}>
+          <div css={{ padding: theme.spacing.sm, color: theme.colors.textValidationDanger }}>
             Failed to load workspaces
-          </DropdownMenu.Label>
+          </div>
         )}
         
-        {filteredOptions.length === 0 && searchTerm && (
-          <DropdownMenu.Label>No workspaces found</DropdownMenu.Label>
+        {!loadFailed && (
+          <DialogComboboxOptionList>
+            <DialogComboboxOptionListSearch onSearch={(value) => setSearchValue(value)}>
+              {filteredOptions.length === 0 && searchValue ? (
+                // Provide a dummy item when no results to prevent crash
+                <DialogComboboxOptionListSelectItem
+                  value=""
+                  onChange={() => {}}
+                  checked={false}
+                  disabled
+                >
+                  No workspaces found
+                </DialogComboboxOptionListSelectItem>
+              ) : (
+                filteredOptions.map((workspace) => {
+                  const item = (
+                    <DialogComboboxOptionListSelectItem
+                      key={workspace.name}
+                      value={workspace.name}
+                      onChange={(value) => handleWorkspaceChange(value)}
+                      checked={workspace.name === currentWorkspace}
+                    >
+          {workspace.name}
+                    </DialogComboboxOptionListSelectItem>
+                  );
+
+                  // Wrap with Tooltip if workspace has description
+                  if (workspace.description) {
+                    return (
+                      <Tooltip
+                        key={workspace.name}
+                        componentId={`workspace_selector.tooltip.${workspace.name}`}
+                        content={workspace.description}
+                        side="right"
+                      >
+                        {item}
+                      </Tooltip>
+                    );
+                  }
+
+                  return item;
+                })
+              )}
+            </DialogComboboxOptionListSearch>
+          </DialogComboboxOptionList>
         )}
-        
-        {filteredOptions.map((workspace) => (
-          <Tooltip 
-            key={workspace.name} 
-            content={workspace.description || workspace.name}
-            componentId={`workspace_tooltip_${workspace.name}`}
-          >
-            <DropdownMenu.Item
-              componentId={`workspace_item_${workspace.name}`}
-              onClick={() => handleWorkspaceChange(workspace.name)}
-              css={{
-                fontWeight: workspace.name === currentWorkspace ? 'bold' : 'normal',
-              }}
-            >
-              {workspace.name}
-            </DropdownMenu.Item>
-          </Tooltip>
-        ))}
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+      </DialogComboboxContent>
+    </DialogCombobox>
   );
 };
