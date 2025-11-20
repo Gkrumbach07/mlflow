@@ -34,7 +34,6 @@ import {
   hasWorkspaceAccess,
 } from './common/utils/WorkspaceUtils';
 import { WorkspacePermissionError } from './common/components/WorkspacePermissionError';
-import { WorkspaceSelectionPrompt } from './common/components/WorkspaceSelectionPrompt';
 
 /**
  * This is the MLflow default entry/landing route.
