@@ -11,6 +11,7 @@ import yaml from 'js-yaml';
 import { pickBy } from 'lodash';
 import { ErrorWrapper } from './ErrorWrapper';
 import { matchPredefinedError } from '@databricks/web-shared/errors';
+import { getWorkspaceOrDefault } from './WorkspaceUtils';
 
 export const HTTPMethods = {
   GET: 'GET',
@@ -47,13 +48,22 @@ export const getDefaultHeadersFromCookies = (cookieStr: any) => {
 
 export const getDefaultHeaders = (cookieStr: any) => {
   const cookieHeaders = getDefaultHeadersFromCookies(cookieStr);
+  const workspace = getWorkspaceOrDefault();
+  
   return {
     ...cookieHeaders,
+    // Pass workspace to backend via X-MLFLOW-WORKSPACE header instead of URL path
+    ...(workspace ? { 'X-MLFLOW-WORKSPACE': workspace } : {}),
+    // Note: Authorization header is injected by kube-auth-proxy, not by the frontend
   };
 };
 
 export const getAjaxUrl = (relativeUrl: any) => {
-  if (process.env['MLFLOW_USE_ABSOLUTE_AJAX_URLS'] === 'true' && !relativeUrl.startsWith('/')) {
+  if (
+    process.env['MLFLOW_USE_ABSOLUTE_AJAX_URLS'] === 'true' &&
+    typeof relativeUrl === 'string' &&
+    !relativeUrl.startsWith('/')
+  ) {
     return '/' + relativeUrl;
   }
   return relativeUrl;
@@ -452,12 +462,30 @@ function serializeRequestBody(payload: any | FormData | Blob) {
     : JSON.stringify(payload);
 }
 
-export const fetchAPI = async (url: string, method: 'POST' | 'GET' | 'PATCH' | 'DELETE' = 'GET', body?: any) => {
-  const response = await fetch(url, {
+export const fetchAPI = async (
+  url: string,
+  method: 'POST' | 'GET' | 'PATCH' | 'DELETE' = 'GET',
+  body?: any,
+  signal?: AbortSignal,
+) => {
+  let cookieString = '';
+  if (typeof document !== 'undefined' && typeof document.cookie === 'string') {
+    cookieString = document.cookie || '';
+  }
+  const fetchOptions: RequestInit = {
     method,
-    body: serializeRequestBody(body),
-    headers: body ? { 'Content-Type': 'application/json' } : {},
-  });
+    headers: {
+      ...getDefaultHeaders(cookieString),
+      ...(body ? { 'Content-Type': 'application/json' } : {}),
+    },
+    signal,
+  };
+
+  if (body !== undefined) {
+    fetchOptions.body = serializeRequestBody(body);
+  }
+
+  const response = await fetch(url, fetchOptions);
   if (!response.ok) {
     const predefinedError = matchPredefinedError(response);
     if (predefinedError) {

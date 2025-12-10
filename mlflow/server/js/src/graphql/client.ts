@@ -10,6 +10,7 @@ import {
   RetryLink,
   DefaultHeadersLink as OssDefaultHeadersLink,
 } from '@mlflow/mlflow/src/common/utils/graphQLHooks';
+import { getAjaxUrl } from '@mlflow/mlflow/src/common/utils/FetchUtils';
 
 function containsMutation(op: Operation): boolean {
   const definitions = (op.query && op.query.definitions) || [];
@@ -25,8 +26,11 @@ const graphqlFetch = async (uri: any, options: any): Promise<Response> => {
     ...options.headers,
   });
 
+  // Add workspace prefix to GraphQL URI
+  const workspaceAwareUri = getAjaxUrl(uri);
+
   // eslint-disable-next-line no-restricted-globals -- See go/spog-fetch
-  return fetch(uri, { ...options, headers }).then((res) => res);
+  return fetch(workspaceAwareUri, { ...options, headers }).then((res) => res);
 };
 
 const apolloCache = new InMemoryCache({
